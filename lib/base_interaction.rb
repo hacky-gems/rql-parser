@@ -1,3 +1,5 @@
+require 'active_interaction'
+
 class BaseInteraction < ActiveInteraction::Base
   private
 
