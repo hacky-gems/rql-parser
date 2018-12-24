@@ -1,0 +1,21 @@
+exp = group | or_exp ;
+
+group = '(', or_exp, ')' ;
+
+or_exp = and_exp, { or_delim, and_exp } ;
+
+or_delim = '|', ';' ;
+
+and_exp = (function | and_strict | group), { ',', (function | and_strict | group) } ;
+
+function = identifier, '(', [arg, { ',', arg }], ')' ;
+
+and_strict = (function | group), { '&', (function | group) } ;
+
+identifier = /[a-z]+/
+
+arg = and_exp | array_of_values | value ;
+
+value = /[_0-9a-zA-Z]+/ ;
+
+array_of_values = '(', value, { ',', value }, ')' ;
