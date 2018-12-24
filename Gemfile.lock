@@ -1,0 +1,37 @@
+PATH
+  remote: .
+  specs:
+    rql_parser (0.0.1alpha1)
+      active_interaction (~> 3.6.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    active_interaction (3.6.2)
+      activemodel (>= 4, < 6)
+    activemodel (5.2.2)
+      activesupport (= 5.2.2)
+    activesupport (5.2.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    concurrent-ruby (1.1.4)
+    i18n (1.3.0)
+      concurrent-ruby (~> 1.0)
+    minitest (5.11.3)
+    rake (10.5.0)
+    thread_safe (0.3.6)
+    tzinfo (1.2.5)
+      thread_safe (~> 0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.17)
+  rake (~> 10.0)
+  rql_parser!
+
+BUNDLED WITH
+   1.17.1

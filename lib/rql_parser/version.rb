@@ -1,3 +1,3 @@
 module RqlParser
-  VERSION = '0.0.1alpha1'.freeze
+  VERSION = '0.0.1alpha2'.freeze
 end
