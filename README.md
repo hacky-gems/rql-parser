@@ -18,7 +18,17 @@ Or install it yourself as:
 
 ## Usage
 
-> TODO: Write usage instructions here
+See [ActiveInteraction](https://github.com/AaronLasseigne/active_interaction)
+
+```ruby
+# in controller
+output = RqlParser::FromParams.run(params.to_unsafe_hash)
+# or
+rql = 'eq(hello,world)&ruby=eq=awesome' # your RQL query here
+output = RqlParser::Parse.run(rql)
+```
+
+`output.result` yields a binary tree representing the query.
 
 ## Development
 

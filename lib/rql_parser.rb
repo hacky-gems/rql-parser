@@ -1,6 +1,5 @@
-require "rql_parser/version"
+require 'active_interaction'
 
-module RqlParser
-  class Error < StandardError; end
-  # Your code goes here...
-end
+module RqlParser; end
+
+require "rql_parser/version"
