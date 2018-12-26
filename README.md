@@ -18,14 +18,19 @@ Or install it yourself as:
 
 ## Usage
 
-See [ActiveInteraction](https://github.com/AaronLasseigne/active_interaction)
+See [ActiveInteraction](https://github.com/AaronLasseigne/active_interaction), as it is used as a base for the gem
 
 ```ruby
-# in controller
-output = RqlParser::FromParams.run(params.to_unsafe_hash)
-# or
+# In controller:
+output = RqlParser.from_params(params.to_unsafe_hash)
+# To raise an error instead of returning an object:
+output = RqlParser.from_params!(params.to_unsafe_hash)
+
+# Parse RQL instead of params: 
 rql = 'eq(hello,world)&ruby=eq=awesome' # your RQL query here
-output = RqlParser::Parse.run(rql)
+output = RqlParser.parse(rql)
+# To raise an error instead of returning an object:
+output = RqlParser.parse!(rql)
 ```
 
 `output.result` yields a binary tree representing the query.

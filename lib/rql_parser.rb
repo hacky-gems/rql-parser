@@ -2,17 +2,20 @@ require 'active_interaction'
 
 # Base module of the parser
 module RqlParser
-  # Parent class for all objects
-  class BaseInteraction < ActiveInteraction::Base
-    private
+  def from_params(params)
+    Services::FromParams.run(params)
+  end
 
-    def perform(interaction)
-      if interaction.valid?
-        interaction.result
-      else
-        errors.merge!(interaction.errors)
-      end
-    end
+  def from_params!(params)
+    Services::FromParams.run!(params)
+  end
+
+  def parse(rql)
+    Services::Parse.run(rql)
+  end
+
+  def parse!(rql)
+    Services::Parse.run!(rql)
   end
 end
 
