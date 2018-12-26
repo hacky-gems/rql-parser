@@ -1,4 +1,5 @@
 module RqlParser
+  # Parent class for all objects
   class BaseInteraction < ActiveInteraction::Base
     private
 
