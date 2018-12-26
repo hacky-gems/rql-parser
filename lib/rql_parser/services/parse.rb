@@ -29,7 +29,7 @@ module RqlParser
 
       def or_expression(str)
         res = []
-        split = str.split(/[|;]/)
+        split = str.split(/[;|]/)
         temp = ''
         while split.any?
           temp += split.shift
@@ -38,7 +38,7 @@ module RqlParser
             res.push(temp_and_exp)
             temp = ''
           else
-            temp += ';'
+            temp += '|'
           end
         end
         return false if temp.present?
@@ -90,11 +90,7 @@ module RqlParser
           identifier = str.match(/\A([a-z]+)/)[1]
           args = str.match(/\A[a-z]+\((.+)\)\z/)[1]
           temp_args = args(args)
-          if temp_args
-            res = { type: :function, identifier: identifier, args: temp_args }
-          else
-            false
-          end
+          res = { type: :function, identifier: identifier, args: temp_args } if temp_args
         end
         res
       end

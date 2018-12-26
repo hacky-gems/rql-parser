@@ -6,12 +6,12 @@ module RqlParser
       hash :params, strip: false
 
       def execute
-        perform RqlParser::Parse.run(rql: to_rql(params))
+        perform(Parse.run(rql: rql))
       end
 
       private
 
-      def to_rql(params)
+      def rql
         params.except(:controller, :action).map do |k, v|
           [k, v].compact.join('=')
         end.join('&')
