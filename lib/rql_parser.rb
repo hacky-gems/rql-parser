@@ -1,5 +1,22 @@
 require 'active_interaction'
 
-module RqlParser; end
+# Base module of the parser
+module RqlParser
+  def from_params(params)
+    Services::FromParams.run(params)
+  end
 
-require "rql_parser/version"
+  def from_params!(params)
+    Services::FromParams.run!(params)
+  end
+
+  def parse(rql)
+    Services::Parse.run(rql)
+  end
+
+  def parse!(rql)
+    Services::Parse.run!(rql)
+  end
+end
+
+require 'rql_parser/version'
