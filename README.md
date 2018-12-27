@@ -5,7 +5,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rql_parser'
+gem 'rql-parser'
 ```
 
 And then execute:
@@ -17,7 +17,7 @@ $ bundle
 Or install it yourself as:
 
 ```
-$ gem install rql_parser
+$ gem install rql-parser
 ```
 
 ## Usage

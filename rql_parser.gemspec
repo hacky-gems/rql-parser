@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'rql_parser/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'rql_parser'
+  spec.name          = 'rql-parser'
   spec.version       = RqlParser::VERSION
   spec.authors       = ['Deorigosa']
   spec.email         = ['Deorigosa@users.noreply.github.com']

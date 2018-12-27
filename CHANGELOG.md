@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.1.1
+
+- Change name from `rql_parser` to 'rql-parser' for consistency
+
+---
+
 #### 1.1.0
 
 - Transfer ownership
