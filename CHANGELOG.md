@@ -1,5 +1,17 @@
 # Changelog
 
+#### 1.0.3
+
+- Fix typos
+
+---
+
+#### 1.0.2
+
+- Fix typos
+
+---
+
 #### 1.0.1
 
 - Fix critical bug
