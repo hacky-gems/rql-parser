@@ -7,13 +7,13 @@ RSpec.describe RqlParser::Services::FromParams do
       let(:function) { described_class.run!(params: params) }
       let(:result) do
         { type: :function,
-          identifier: 'and',
+          identifier: :and,
           args: [{ type: :function,
-                   identifier: 'eq',
+                   identifier: :eq,
                    args: [{ arg: 'a' },
                           { arg: 'b' }] },
                  { type: :function,
-                   identifier: 'eq',
+                   identifier: :eq,
                    args: [{ arg: 'c' },
                           { arg: 'd' }] }] }
       end
