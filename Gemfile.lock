@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rql_parser (0.0.1alpha3)
+    rql_parser (1.0.0)
       active_interaction (~> 3.6.0)
 
 GEM
