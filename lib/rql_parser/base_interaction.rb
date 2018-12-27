@@ -3,11 +3,11 @@ module RqlParser
   class BaseInteraction < ActiveInteraction::Base
     private
 
-    def perform(interaction)
-      if interaction.valid?
-        interaction.result
+    def perform(outcome)
+      if outcome.valid?
+        outcome.result
       else
-        errors.merge!(interaction.errors)
+        errors.merge!(outcome.errors)
       end
     end
   end
