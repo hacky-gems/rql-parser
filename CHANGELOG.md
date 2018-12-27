@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.0.1
+
+- Fix critical bug
+
+---
+
 #### 1.0.0
 
 - Make function identifiers symbols instead of strings
