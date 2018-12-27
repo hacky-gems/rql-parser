@@ -3,19 +3,19 @@ require 'active_interaction'
 # Base module of the parser
 module RqlParser
   def self.from_params(params)
-    Services::FromParams.run(params)
+    Services::FromParams.run(params: params)
   end
 
   def self.from_params!(params)
-    Services::FromParams.run!(params)
+    Services::FromParams.run!(params: params)
   end
 
   def self.parse(rql)
-    Services::Parse.run(rql)
+    Services::Parse.run(rql: rql)
   end
 
   def self.parse!(rql)
-    Services::Parse.run!(rql)
+    Services::Parse.run!(rql: rql)
   end
 end
 
