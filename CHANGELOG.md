@@ -1,5 +1,11 @@
 # Changelog
 
+#### 1.1.0
+
+- Transfer ownership
+
+---
+
 #### 1.0.3
 
 - Fix typos

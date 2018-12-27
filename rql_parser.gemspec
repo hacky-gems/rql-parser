@@ -5,12 +5,12 @@ require 'rql_parser/version'
 Gem::Specification.new do |spec|
   spec.name          = 'rql_parser'
   spec.version       = RqlParser::VERSION
-  spec.authors       = ['Aliaksei Kharkou']
-  spec.email         = ['Aliaksei.Kharkou@itechart-group.com']
+  spec.authors       = ['Deorigosa']
+  spec.email         = ['Deorigosa@users.noreply.github.com']
 
   spec.summary       = 'RqlParser is a gem for using RQL as valid params'
   spec.description   = 'RqlParser is a gem for using RQL as valid params'
-  spec.homepage      = 'https://github.com/deorigosa-work/rql-parser'
+  spec.homepage      = 'https://github.com/hacky-gems/rql-parser'
   spec.license       = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -18,8 +18,8 @@ Gem::Specification.new do |spec|
   raise 'RubyGems 2.0 or newer is required to protect against public gem pushes.' unless spec.respond_to?(:metadata)
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/deorigosa-work/rql-parser'
-  spec.metadata['changelog_uri'] = 'https://github.com/deorigosa-work/rql-parser/blob/master/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = 'https://github.com/hacky-gems/rql-parser'
+  spec.metadata['changelog_uri'] = 'https://github.com/hacky-gems/rql-parser/blob/master/CHANGELOG.md'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
