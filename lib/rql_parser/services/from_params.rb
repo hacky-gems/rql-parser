@@ -2,6 +2,7 @@
 
 module RqlParser
   module Services
+    # Creates a RQL binary tree directly from params hash
     class FromParams < BaseInteraction
       hash :params, strip: false
 

@@ -10,11 +10,15 @@ gem 'rql_parser'
 
 And then execute:
 
-    $ bundle
+```
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install rql_parser
+```
+$ gem install rql_parser
+```
 
 ## Usage
 
@@ -23,18 +27,41 @@ See [ActiveInteraction](https://github.com/AaronLasseigne/active_interaction), a
 ```ruby
 # In controller:
 output = RqlParser.from_params(params.to_unsafe_hash)
-# To raise an error instead of returning an object:
-output = RqlParser.from_params!(params.to_unsafe_hash)
 
 # Parse RQL instead of params: 
 rql = 'eq(hello,world)&ruby=eq=awesome' # your RQL query here
 output = RqlParser.parse(rql)
-# To raise an error instead of returning an object:
-output = RqlParser.parse!(rql)
 ```
 
-`output.result` yields a binary tree representing the query.
+`output.result` yields a binary tree representing the query:
 
+```ruby
+rql = 'eq(hello,world)&ruby=eq=awesome' # your RQL query here
+output = RqlParser.parse(rql)
+output.valid?
+#=> true
+output.result
+#=> { type: :function,
+#     identifier: :and,
+#     args: [{ type: :function,
+#              identifier: :eq,
+#              args: [{ arg: 'hello' },
+#                     { arg: 'world' }] },
+#            { type: :function,
+#              identifier: :eq,
+#              args: [{ arg: 'ruby' },
+#                     { arg: 'awesome' }] }] }
+```
+
+`output.errors` yields an `ActiveModel::Errors`-like object (if any):
+```ruby
+rql = 'i=have=errors' # your invalid RQL query here
+output = RqlParser.parse(rql)
+output.valid?
+#=> false
+output.errors.full_messages
+#=> 'Rql has invalid shorthands'
+```
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

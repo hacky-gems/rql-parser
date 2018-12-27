@@ -8,13 +8,13 @@ RSpec.describe RqlParser::Services::Parse do
       let(:rql) { 'a(b,c)&e(f,g)' }
       let(:result) do
         { type: :function,
-          identifier: 'and',
+          identifier: :and,
           args: [{ type: :function,
-                   identifier: 'a',
+                   identifier: :a,
                    args: [{ arg: 'b' },
                           { arg: 'c' }] },
                  { type: :function,
-                   identifier: 'e',
+                   identifier: :e,
                    args: [{ arg: 'f' },
                           { arg: 'g' }] }] }
       end
@@ -28,13 +28,13 @@ RSpec.describe RqlParser::Services::Parse do
       let(:rql) { 'a(b,c);e(f,g)' }
       let(:result) do
         { type: :function,
-          identifier: 'or',
+          identifier: :or,
           args: [{ type: :function,
-                   identifier: 'a',
+                   identifier: :a,
                    args: [{ arg: 'b' },
                           { arg: 'c' }] },
                  { type: :function,
-                   identifier: 'e',
+                   identifier: :e,
                    args: [{ arg: 'f' },
                           { arg: 'g' }] }] }
       end
@@ -48,42 +48,39 @@ RSpec.describe RqlParser::Services::Parse do
       let(:rql) { 'eq(smock,80)&age=eq=30&(time=ge=22|eq(time,40))&(weight<30|weight>=50)&(hello=123)' }
       let(:result) do
         { type: :function,
-          identifier: 'and',
+          identifier: :and,
           args: [{ type: :function,
-                   identifier: 'eq',
+                   identifier: :eq,
                    args: [{ arg: 'smock' },
                           { arg: '80' }] },
                  { type: :function,
-                   identifier: 'eq',
+                   identifier: :eq,
                    args: [{ arg: 'age' },
                           { arg: '30' }] },
-                 { type: :group,
-                   args: { type: :function,
-                           identifier: 'or',
-                           args: [{ type: :function,
-                                    identifier: 'ge',
-                                    args: [{ arg: 'time' },
-                                           { arg: '22' }] },
-                                  { type: :function,
-                                    identifier: 'eq',
-                                    args: [{ arg: 'time' },
-                                           { arg: '40' }] }] } },
-                 { type: :group,
-                   args: { type: :function,
-                           identifier: 'or',
-                           args: [{ type: :function,
-                                    identifier: 'lt',
-                                    args: [{ arg: 'weight' },
-                                           { arg: '30' }] },
-                                  { type: :function,
-                                    identifier: 'ge',
-                                    args: [{ arg: 'weight' },
-                                           { arg: '50' }] }] } },
-                 { type: :group,
-                   args: { type: :function,
-                           identifier: 'eq',
-                           args: [{ arg: 'hello' },
-                                  { arg: '123' }] } }] }
+                 { type: :function,
+                   identifier: :or,
+                   args: [{ type: :function,
+                            identifier: :ge,
+                            args: [{ arg: 'time' },
+                                   { arg: '22' }] },
+                          { type: :function,
+                            identifier: :eq,
+                            args: [{ arg: 'time' },
+                                   { arg: '40' }] }] },
+                 { type: :function,
+                   identifier: :or,
+                   args: [{ type: :function,
+                            identifier: :lt,
+                            args: [{ arg: 'weight' },
+                                   { arg: '30' }] },
+                          { type: :function,
+                            identifier: :ge,
+                            args: [{ arg: 'weight' },
+                                   { arg: '50' }] }] },
+                 { type: :function,
+                   identifier: :eq,
+                   args: [{ arg: 'hello' },
+                          { arg: '123' }] }] }
       end
 
       it 'returns valid binary tree' do
@@ -95,7 +92,7 @@ RSpec.describe RqlParser::Services::Parse do
       let(:rql) { 'a(b,c)' }
       let(:result) do
         { type: :function,
-          identifier: 'a',
+          identifier: :a,
           args: [{ arg: 'b' },
                  { arg: 'c' }] }
       end
@@ -109,7 +106,7 @@ RSpec.describe RqlParser::Services::Parse do
       let(:rql) { 'a(b,c,d,e)' }
       let(:result) do
         { type: :function,
-          identifier: 'a',
+          identifier: :a,
           args: [{ arg: 'b' },
                  { arg: 'c' },
                  { arg: 'd' },
@@ -125,7 +122,7 @@ RSpec.describe RqlParser::Services::Parse do
       let(:rql) { 'a((b,c))' }
       let(:result) do
         { type: :function,
-          identifier: 'a',
+          identifier: :a,
           args: [{ arg_array: [{ arg: 'b' },
                                { arg: 'c' }] }] }
       end
@@ -139,7 +136,7 @@ RSpec.describe RqlParser::Services::Parse do
       let(:rql) { 'a(b,(c,d),e)' }
       let(:result) do
         { type: :function,
-          identifier: 'a',
+          identifier: :a,
           args: [{ arg: 'b' },
                  { arg_array: [{ arg: 'c' },
                                { arg: 'd' }] },
@@ -155,19 +152,19 @@ RSpec.describe RqlParser::Services::Parse do
       let(:rql) { 'or(eq(a,b)&eq(c,d),eq(e,f))' }
       let(:result) do
         { type: :function,
-          identifier: 'or',
+          identifier: :or,
           args: [{ type: :function,
-                   identifier: 'and',
+                   identifier: :and,
                    args: [{ type: :function,
-                            identifier: 'eq',
+                            identifier: :eq,
                             args: [{ arg: 'a' },
                                    { arg: 'b' }] },
                           { type: :function,
-                            identifier: 'eq',
+                            identifier: :eq,
                             args: [{ arg: 'c' },
                                    { arg: 'd' }] }] },
                  { type: :function,
-                   identifier: 'eq',
+                   identifier: :eq,
                    args: [{ arg: 'e' },
                           { arg: 'f' }] }] }
       end
@@ -181,26 +178,25 @@ RSpec.describe RqlParser::Services::Parse do
       let(:rql) { 'or((eq(a,b)|eq(c,d))&eq(g,h),eq(e,f))' }
       let(:result) do
         { type: :function,
-          identifier: 'or',
+          identifier: :or,
           args: [{ type: :function,
-                   identifier: 'and',
-                   args: [{ type: :group,
-                            args: { type: :function,
-                                    identifier: 'or',
-                                    args: [{ type: :function,
-                                             identifier: 'eq',
-                                             args: [{ arg: 'a' },
-                                                    { arg: 'b' }] },
-                                           { type: :function,
-                                             identifier: 'eq',
-                                             args: [{ arg: 'c' },
-                                                    { arg: 'd' }] }] } },
+                   identifier: :and,
+                   args: [{ type: :function,
+                            identifier: :or,
+                            args: [{ type: :function,
+                                     identifier: :eq,
+                                     args: [{ arg: 'a' },
+                                            { arg: 'b' }] },
+                                   { type: :function,
+                                     identifier: :eq,
+                                     args: [{ arg: 'c' },
+                                            { arg: 'd' }] }] },
                           { type: :function,
-                            identifier: 'eq',
+                            identifier: :eq,
                             args: [{ arg: 'g' },
                                    { arg: 'h' }] }] },
                  { type: :function,
-                   identifier: 'eq',
+                   identifier: :eq,
                    args: [{ arg: 'e' },
                           { arg: 'f' }] }] }
       end
@@ -249,6 +245,14 @@ RSpec.describe RqlParser::Services::Parse do
 
     context 'when too deeply nested params are given' do
       let(:rql) { 'a(((b,c),d))' }
+
+      it 'raises error' do
+        expect(function).to eq(result)
+      end
+    end
+
+    context 'when empty braces are given' do
+      let(:rql) { '()' }
 
       it 'raises error' do
         expect(function).to eq(result)

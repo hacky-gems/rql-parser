@@ -1,9 +1,18 @@
-# frozen_string_literal: true
-
 module RqlParser
   module Services
+    # Service that performs the parse operation
     class Parse < BaseInteraction
       string :rql
+
+      DELIMITERS = '&,;'.freeze
+      OR_DELIMITERS = /[;|]/.freeze
+      COMMA_DELIMITER = /,/.freeze
+      AND_STRICT_DELIMITERS = /&/.freeze
+      BRACES_REGEX = /\A\(.+\)\z/.freeze
+      FUNCTION_REGEX = /\A[a-z]+\(.+\)\z/.freeze
+      FUNCTION_IDENTIFIER = /\A([a-z]+)/.freeze
+      FUNCTION_ARGS = /\A[a-z]+\((.+)\)\z/.freeze
+      VALUE_REGEX = /\A[_0-9a-zA-Z]+\z/.freeze
 
       def execute
         formatted = perform(Format.run(inputs))
@@ -17,101 +26,45 @@ module RqlParser
       end
 
       def group(str)
-        res = false
-        if /\A\(.+\)\z/.match?(str)
-          res = or_expression(str[1..-2])
-          if res
-            res = { type: :group, args: res } if res[:args].size > 1
-          end
-        end
-        res
+        return false unless BRACES_REGEX.match?(str)
+
+        or_expression(str[1..-2]) || false
       end
 
       def or_expression(str)
-        res = []
-        split = str.split(/[;|]/)
-        temp = ''
-        while split.any?
-          temp += split.shift
-          temp_and_exp = and_expression(temp)
-          if temp_and_exp
-            res.push(temp_and_exp)
-            temp = ''
-          else
-            temp += '|'
-          end
-        end
-        return false if temp.present?
+        result = repeat_pattern(str, OR_DELIMITERS) { |s| and_expression(s) }
+        return false unless result
 
-        res.size > 1 ? { type: :function, identifier: 'or', args: res } : res.first
+        result.size > 1 ? { type: :function, identifier: :or, args: result } : result.first
       end
 
       def and_expression(str)
-        res = []
-        split = str.split(/,/)
-        temp = ''
-        while split.any?
-          temp += split.shift
-          temp_and_exp = function(temp) || group(temp) || and_strict(temp)
-          if temp_and_exp
-            res.push(temp_and_exp)
-            temp = ''
-          else
-            temp += ','
-          end
-        end
-        return false if temp.present?
+        result = repeat_pattern(str, COMMA_DELIMITER) { |s| function(s) || group(s) || and_strict(s) }
+        return false unless result
 
-        res.size > 1 ? { type: :function, identifier: 'and', args: res } : res.first
+        result.size > 1 ? { type: :function, identifier: :and, args: result } : result.first
       end
 
       def and_strict(str)
-        res = []
-        split = str.split(/&/)
-        temp = ''
-        while split.any?
-          temp += split.shift
-          temp_and_exp = function(temp) || group(temp)
-          if temp_and_exp
-            res.push(temp_and_exp)
-            temp = ''
-          else
-            temp += ','
-          end
-        end
-        return false if temp.present?
+        result = repeat_pattern(str, AND_STRICT_DELIMITERS) { |s| function(s) || group(s) }
+        return false unless result
 
-        res.size > 1 ? { type: :function, identifier: 'and', args: res } : res.first
+        result.size > 1 ? { type: :function, identifier: :and, args: result } : result.first
       end
 
       def function(str)
-        res = false
-        if /\A[a-z]+\(.+\)\z/.match?(str)
-          identifier = str.match(/\A([a-z]+)/)[1]
-          args = str.match(/\A[a-z]+\((.+)\)\z/)[1]
-          temp_args = args(args)
-          res = { type: :function, identifier: identifier, args: temp_args } if temp_args
-        end
-        res
+        return false unless FUNCTION_REGEX.match?(str)
+
+        identifier = str.match(FUNCTION_IDENTIFIER)[1]
+        args = args(str.match(FUNCTION_ARGS)[1])
+
+        return false unless args
+
+        { type: :function, identifier: identifier.to_sym, args: args }
       end
 
       def args(str)
-        res = []
-        split = str.split(',')
-        temp = ''
-        while split.any?
-          temp += split.shift
-          temp_arg = arg(temp)
-          if temp_arg
-            res.push(temp_arg)
-            temp = ''
-          else
-            temp += ','
-          end
-        end
-        return false if temp.present?
-
-        res
+        repeat_pattern(str, COMMA_DELIMITER) { |s| arg(s) }
       end
 
       def arg(str)
@@ -119,32 +72,41 @@ module RqlParser
       end
 
       def array_of_values(str)
-        return false unless /\A\(.+\)\z/.match?(str)
+        return false unless BRACES_REGEX.match?(str)
 
-        res = []
-        split = str[1..-2].split(',')
-        temp = ''
-        while split.any?
-          temp += split.shift
-          temp_arg = value(temp)
-          if temp_arg
-            res.push(temp_arg)
-            temp = ''
-          else
-            temp += ','
-          end
-        end
-        return false if temp.present?
+        result = repeat_pattern(str[1..-2], COMMA_DELIMITER) { |s| value(s) }
+        return false unless result
 
-        { arg_array: res }
+        { arg_array: result }
       end
 
       def value(str)
-        if str.match?(/\A[_0-9a-zA-Z]+\z/)
+        if str.match?(VALUE_REGEX)
           { arg: str }
         else
           false
         end
+      end
+
+      def repeat_pattern(str, split_regex)
+        split = str.split(split_regex)
+        result = []
+        expression = ''
+        while split.any?
+          expression += split.shift
+          bin_tree = yield(expression)
+          if bin_tree
+            result.push(bin_tree)
+            expression = ''
+          else
+            expression += compose_char(split_regex)
+          end
+        end
+        expression.blank? && result
+      end
+
+      def compose_char(regex)
+        DELIMITERS.match(regex)[0]
       end
     end
   end
