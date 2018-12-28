@@ -33,7 +33,7 @@ rql = 'eq(hello,world)&ruby=eq=awesome' # your RQL query here
 output = RqlParser.parse(rql)
 ```
 
-`output.result` yields a binary tree representing the query:
+`output.result` yields an [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree) representing the query:
 
 ```ruby
 rql = 'eq(hello,world)&ruby=eq=awesome' # your RQL query here
