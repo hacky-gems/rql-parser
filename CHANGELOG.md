@@ -1,8 +1,16 @@
 # Changelog
 
+#### 1.1.2
+
+- Update Readme text to clarify that a result of parsing is
+  an abstract syntax tree, not a binary tree
+- Fix typos
+
+---
+
 #### 1.1.1
 
-- Change name from `rql_parser` to 'rql-parser' for consistency
+- Change name from `rql_parser` to `rql-parser` for consistency
 
 ---
 
